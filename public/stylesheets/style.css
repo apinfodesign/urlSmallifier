@@ -1,0 +1,17 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background-color: green;
+  color: white;
+}
+
+a {
+  color: #00B7FF;
+}
+
+.urlstyle
+	{font-size: 40px}
+
+ .number
+  		{font-size: 180px; 
+  		 color: yellow;}
