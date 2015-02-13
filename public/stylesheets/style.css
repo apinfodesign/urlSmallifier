@@ -3,6 +3,7 @@ body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
   background-color: green;
   color: white;
+  text-align: center;
 }
 
 a {
@@ -10,7 +11,7 @@ a {
 }
 
 .urlstyle
-	{font-size: 40px}
+	{font-size: 45px}
 
  .number
   		{font-size: 180px; 

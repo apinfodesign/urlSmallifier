@@ -20,7 +20,7 @@ router.get('/', function(req, res, next) {
 
 // index.jade needs a form to submit a URL for shortening
 router.post('/', function(req, res) {
-  var db = app.get('mongo');                   //must align with app.set name
+  var db = app.get('mongo');               //must align with app.set name
   var collection = db.collection('urldb');
 
   var urlToShorten = req.body.userURL;  
@@ -53,32 +53,44 @@ router.post('/', function(req, res) {
   });
 });
 
+///////////////////////////////////////////////////////////
+
 router.get('/info/:shortUrl', function(req, res) {
-  var db = app.get('mongo');                   //must align with app.set name
+  var db = app.get('mongo');             //must align with app.set name
   var collection = db.collection('urldb'),     // use urldb
-    shortUrl = req.params.shortUrl;            //
-    
-    console.log( req.params.shortUrl + " is req.params.shortUrl ");
-
-  collection.find({'smallURL': shortUrl}, function(err, result) {
-  	result.toArray(function(err, url)  {
-  		console.log("preparing to render "+ url[0]);
-  		  		console.log( url[0]);
-  		res.render('info', {url: url[0]}); 
-
-  		console.log("inside info/:shortUrl   " + url[0]);
- 		 })
+  shortUrl = req.params.shortUrl;          //
+      //   console.log( req.params.shortUrl + " is req.params.shortUrl ");
+    collection.findOne({'smallURL': shortUrl}, function(err, result){
+    res.render('info', {'url': result}); 
+    })
   });
-});
+
+ 
 
 router.get('/:shortUrl', function(req, res) {
   var db = app.get('mongo');                   //must align with app.set name
   var collection = db.collection('urldb');
   var  shortUrl = req.params.shortUrl;
 
-    collection.findAndModify({'smallURL': shortUrl}, [], { $inc: {'clicks': 1} } ,function(err, url)
-     {
-       	res.redirect(url.bigURL);     
+  var theDate=Date.now();
+
+//collection.findAndModify(criteria[, sort[, update[, options]]], callback)
+//criteria - query object to match
+//sort - order of matches, here blank []
+//update - the replacement object, here $inc on clicks
+//options - blank here
+//callback, here function(err,url)
+
+
+  //save the shortURL, an empty array and the incremented click value
+  collection.findAndModify(
+        {'smallURL': shortUrl}, 
+        [],
+        { $inc: {'clicks': 1}, 
+          $set: {'date': theDate} 
+        }, 
+        function(err, url){
+       	res.redirect(url.bigURL);     //...and then redirect to bigURL
   	});
 });
 

@@ -4,6 +4,9 @@ block content
 	h1= title 
 	p
 	p Your short URL is:
-		a(href="http://localhost:3000/"+url.smallURL class="urlstyle")= "http://" + url.smallURL
+	a(href="http://localhost:3000/"+url.smallURL class="urlstyle")= "http://" + url.smallURL
 	p It has been clicked this many times:
 	div(class="number")= url.clicks
+	p
+	p The time stamp for last click is:
+	p= url.date
